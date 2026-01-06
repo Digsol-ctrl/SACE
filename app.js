@@ -3,49 +3,48 @@ import express from 'express';
 import connectDB from './config/db.js';
 import servicesRoutes from './routes/services.js';
 import indexRoutes from './routes/index.js';
-import helmet from helmet;
+import helmet from 'helmet';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
+// Create app early so middlewares can be applied
+const app = express();
+
+// Security and performance middleware
 app.use(helmet());
 app.use(compression());
 
+// Rate limiting for public endpoints
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 200,
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 200, // limit each IP to 200 requests per windowMs
 });
 app.use(limiter);
 
+// Session: use Mongo store in production
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'change-me',
   resave: false,
   saveUninitialized: false,
-  store: MongoStire.create({ mongoUrl: process.env.MONGO_URI }),
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV == 'production',
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 1000 * 60 * 60 * 60, //1day
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
   }
 }));
 
 app.get('/health', (req, res) => res.status(200).json({ ok: true }));
 
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).render('500', { title: 'Server error' });
-})
-
 app.use(express.static('public', { maxAge: '1d' })); // 1 day, adjust as needed
 
-const app = express();
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('public'));
 
 // global template locals (whatsapp link + message)
 app.use((req, res, next) => {
