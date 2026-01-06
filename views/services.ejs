@@ -1,0 +1,15 @@
+<%- include('partials/header') %>
+
+<main class="max-w-4xl mx-auto py-12">
+  <h1 class="text-3xl font-bold mb-6">Our Services</h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <% services.forEach(s => { %>
+      <article class="p-4 border rounded">
+        <h2 class="text-xl font-semibold"><%= s.title %></h2>
+        <p class="text-sm text-gray-600"><%= s.description %></p>
+      </article>
+    <% }) %>
+  </div>
+</main>
+
+<%- include('partials/footer') %>
