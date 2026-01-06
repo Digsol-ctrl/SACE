@@ -63,7 +63,7 @@
       <p class="section-subtitle">Building excellence since 2008</p>
     </div>
 
-    <div class="about-content">
+    <div class="about-content animate-on-scroll">
       <div class="about-text">
         <h3>We Transform Visions Into Reality</h3>
         <p>Simply Amazing Construction & Engineering is a full-service construction company specializing in residential, commercial, and industrial projects. Our team of skilled professionals combines innovative design with precision engineering to deliver exceptional results.</p>
@@ -98,7 +98,7 @@
       <p class="section-subtitle">Comprehensive construction solutions</p>
     </div>
 
-    <div class="services-grid">
+    <div class="services-grid animate-on-scroll">
       <% (services || []).forEach(s => { %>
         <div class="service-card">
           <div class="service-icon"><i class="fas fa-tools"></i></div>
@@ -134,8 +134,8 @@
 
     <div class="gallery-grid">
       <% (gallery || []).forEach(item => { %>
-        <div class="gallery-item" data-category="<%= item.category.toLowerCase() %>">
-          <img src="<%= item.src %>" alt="<%= item.title %>">
+        <div class="gallery-item" data-category="<%= (item.category || '').toLowerCase() %>">
+          <img src="<%= item.imageUrl || item.src || '' %>" alt="<%= item.title %>" loading="lazy">
           <div class="gallery-overlay"><div class="gallery-info"><h3><%= item.title %></h3><p><%= item.category %></p></div></div>
         </div>
       <% }) %>
@@ -160,7 +160,7 @@
     <div class="section-header"><h2 class="section-title">Contact Us</h2><p class="section-subtitle">Get in touch to discuss your construction project</p></div>
 
     <div class="contact-container">
-      <div class="contact-form-container">
+      <div class="contact-form-container animate-on-scroll">
         <h3>Send Us a Message</h3>
         <p>Fill out the form below and we'll get back to you within 24 hours.</p>
 
@@ -189,7 +189,7 @@
         </form>
       </div>
 
-      <div class="contact-info-container">
+      <div class="contact-info-container animate-on-scroll">
         <h3>Get in Touch</h3>
         <p>We'd love to hear about your project and answer any questions you may have.</p>
         <div class="contact-info">
