@@ -1,0 +1,30 @@
+<%- include('../partials/header') %>
+
+<main class="admin-container">
+  <div class="admin-header">
+    <h1>Services</h1>
+    <div class="admin-actions"><a class="btn-admin" href="/admin/services/new">+ Add Service</a></div>
+  </div>
+
+  <div class="admin-card">
+    <table class="admin-table">
+      <thead><tr><th>Title</th><th>Slug</th><th>Actions</th></tr></thead>
+      <tbody>
+      <% services.forEach(s => { %>
+        <tr>
+          <td data-label="Title"><%= s.title %></td>
+          <td data-label="Slug"><%= s.slug %></td>
+          <td data-label="Actions">
+            <a class="btn-admin" href="/admin/services/<%= s._id %>/edit">Edit</a>
+            <form method="post" action="/admin/services/<%= s._id %>/delete" style="display:inline">
+              <button class="btn-admin btn-danger" type="submit" onclick="return confirm('Delete this service?')">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,25 @@
+<%- include('../partials/header') %>
+
+<main class="admin-container">
+  <div class="admin-header">
+    <h1>Admin Dashboard</h1>
+    <div class="admin-actions"><a class="btn-admin" href="/admin/logout">Logout</a></div>
+  </div>
+
+  <div class="admin-card">
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div style="flex:1;min-width:180px;padding:12px;background:#fff;border-radius:8px;text-align:center">
+        <h3 class="muted">Services</h3>
+        <div style="font-size:1.2rem;font-weight:700"><%= servicesCount %></div>
+        <div style="margin-top:8px"><a href="/admin/services" class="btn-admin">Manage</a></div>
+      </div>
+      <div style="flex:1;min-width:180px;padding:12px;background:#fff;border-radius:8px;text-align:center">
+        <h3 class="muted">Projects</h3>
+        <div style="font-size:1.2rem;font-weight:700"><%= galleryCount %></div>
+        <div style="margin-top:8px"><a href="/admin/gallery" class="btn-admin">Manage</a></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

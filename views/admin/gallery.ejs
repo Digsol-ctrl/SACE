@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+
+<main class="admin-container">
+  <div class="admin-header">
+    <h1>Project Gallery</h1>
+    <div class="admin-actions"><a class="btn-admin" href="/admin/gallery/new">+ Add Project</a></div>
+  </div>
+
+  <div class="admin-card">
+  <% if (items && items.length) { %>
+    <table class="admin-table">
+      <thead>
+        <tr><th>Title</th><th>Category</th><th>Image</th><th>Caption</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        <% items.forEach(function(item) { %>
+          <tr>
+            <td data-label="Title"><%= item.title %></td>
+            <td data-label="Category"><%= item.category || 'Uncategorized' %></td>
+            <td data-label="Image">
+              <% if (item.imageUrl) { %>
+                <img src="<%= item.imageUrl %>" alt="<%= item.title %>" />
+              <% } else { %>
+                <span class="muted">(no image)</span>
+              <% } %>
+            </td>
+            <td data-label="Caption"><%= item.caption || '' %></td>
+            <td data-label="Actions">
+              <a class="btn-admin" href="/admin/gallery/<%= item._id %>/edit">Edit</a>
+              <form method="post" action="/admin/gallery/<%= item._id %>/delete" style="display:inline">
+                <button class="btn-admin btn-danger" type="submit" onclick="return confirm('Delete this gallery item?')">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p class="muted">No gallery items yet.</p>
+  <% } %>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>
