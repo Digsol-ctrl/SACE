@@ -1,0 +1,37 @@
+<%- include('../partials/header') %>
+<h1>Leads</h1>
+
+<% if (leads && leads.length) { %>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Service</th>
+        <th>Message</th>
+        <th>Received</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% leads.forEach(function(lead){ %>
+        <tr>
+          <td><%= lead.name %></td>
+          <td><a href="mailto:<%= lead.email %>"><%= lead.email %></a></td>
+          <td><%= lead.service || '' %></td>
+          <td style="max-width:400px;white-space:pre-wrap;"><%= lead.message %></td>
+          <td><%= lead.createdAt ? new Date(lead.createdAt).toLocaleString() : '' %></td>
+          <td>
+            <form method="post" action="/admin/leads/<%= lead._id %>/delete" style="display:inline">
+              <button type="submit" onclick="return confirm('Delete this lead?')">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } else { %>
+  <p>No leads yet.</p>
+<% } %>
+
+<%- include('../partials/footer') %>

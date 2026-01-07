@@ -8,6 +8,7 @@ import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import adminRoutes from './routes/admin.js'
 
 // Create app early so middlewares can be applied
 const app = express();
@@ -54,12 +55,31 @@ app.use((req, res, next) => {
   next();
 });
 
+// Ensure admin flag is always defined for templates (false by default)
+app.use((req, res, next) => {
+  if (typeof res.locals.admin === 'undefined') res.locals.admin = !!(req.session && req.session.isAdmin);
+  next();
+});
+
+// mark admin route so templates can render minimal nav
+app.use((req, res, next) => {
+  res.locals.isAdminRoute = typeof req.path === 'string' && req.path.startsWith('/admin');
+  next();
+});
+
 // connect to DB before mounting routes that need it
 await connectDB(process.env.MONGO_URI);
 
 app.use('/services', servicesRoutes);
 app.use('/', indexRoutes);
 
+// register the admin routes
+app.use('/admin', adminRoutes);
+
+app.use((req, res, next) => {
+  res.locals.title = res.locals.title || 'Simply Amaizing';
+  next();
+})
 
 // 404 + error handlers (basic)
 app.use((req, res) => res.status(404).render('404', { title: 'Not Found' }));
@@ -67,6 +87,7 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).send('Server error');
 });
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`));

@@ -3,7 +3,10 @@
 <main class="admin-container">
   <div class="admin-header">
     <h1><%= service._id ? 'Edit' : 'Add' %> Service</h1>
-    <div class="admin-actions"><a href="/admin/services" class="btn-admin">Back</a></div>
+    <div class="admin-actions">
+      <a class="btn-secondary" href="/">Home</a>
+      <a href="/admin/services" class="btn-admin">Back</a>
+    </div>
   </div>
 
   <div class="admin-card">

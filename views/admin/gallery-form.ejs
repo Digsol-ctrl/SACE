@@ -3,7 +3,10 @@
 <main class="admin-container">
   <div class="admin-header">
     <h1><%= item && item._id ? 'Edit' : 'Add' %> Gallery Item</h1>
-    <div class="admin-actions"><a href="/admin/gallery" class="btn-admin">Back to list</a></div>
+    <div class="admin-actions">
+      <a class="btn-secondary" href="/">Home</a>
+      <a href="/admin/gallery" class="btn-admin">Back to list</a>
+    </div>
   </div>
 
   <div class="admin-card">

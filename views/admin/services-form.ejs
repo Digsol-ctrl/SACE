@@ -1,0 +1,13 @@
+<%- include('../partials/header') %>
+<h1><%= service._id ? 'Edit' : 'Add' %> Service</h1>
+<% if (errors && errors.length) { %>
+  <ul><% errors.forEach(e => { %><li style="color:red"><%= e %></li><% }) %></ul>
+<% } %>
+<form method="post" action="<%= service._id ? '/admin/services/' + service._id : '/admin/services' %>">
+  <label>Title <input name="title" value="<%= service.title || '' %>" required></label><br>
+  <label>Slug <input name="slug" value="<%= service.slug || '' %>" required></label><br>
+  <label>Image URL <input name="image" value="<%= service.image || '' %>"></label><br>
+  <label>Description<br><textarea name="description"><%= service.description || '' %></textarea></label><br>
+  <button type="submit">Save</button>
+</form>
+<%- include('../partials/footer') %>
