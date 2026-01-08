@@ -149,12 +149,14 @@ export const createGallery = [
       caption: req.body.caption || ''
     };
 
-    // Require upload file (no URL option)
-    if (!req.file) {
-      return res.render('admin/gallery-form', {item: data, errors: ["Image file is required"]})
+    // Accept either an uploaded file or a pasted image URL
+    if (req.file) {
+      data.imageUrl = '/uploads/' + req.file.filename;
+    } else if (req.body.imageUrl && req.body.imageUrl.trim()) {
+      data.imageUrl = req.body.imageUrl.trim();
+    } else {
+      return res.render('admin/gallery-form', { item: data, errors: ["Image file or Image URL is required"] })
     }
-
-    data.imageUrl = '/upload/' + req.file.filename;
 
 
     // Other validation errors
@@ -195,8 +197,11 @@ export const updateGallery = [
         } catch (e) { /* ignore deletion errors */ }
       }
       update.imageUrl = '/uploads/' + req.file.filename;
+    } else if (req.body.imageUrl && req.body.imageUrl.trim()) {
+      // allow changing to an external URL
+      update.imageUrl = req.body.imageUrl.trim();
     } else {
-      // keep existing image if no new upload
+      // keep existing image if no new upload or URL
       update.imageUrl = item.imageUrl;
     }
 
