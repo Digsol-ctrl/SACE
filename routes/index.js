@@ -2,6 +2,7 @@ import express from 'express';
 import { home } from '../controllers/homeController.js';
 import { submitContact } from '../controllers/contactController.js';
 import upload from '../middleware/upload.js';
+import { projects } from '../controllers/projectsController.js';
 
 const router = express.Router();
 
@@ -32,5 +33,8 @@ router.post('/test-upload', upload.single('image'), (req, res) => {
   }
   res.status(400).json({ ok: false, error: 'No file uploaded' });
 });
+
+// Projects page (dedicated gallery)
+router.get('/projects', projects);
 
 export default router;

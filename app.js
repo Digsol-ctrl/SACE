@@ -49,7 +49,7 @@ app.use(express.json());
 
 // global template locals (whatsapp link + message)
 app.use((req, res, next) => {
-  const waNumber = process.env.WHATSAPP_NUMBER || '226784958161';
+  const waNumber = process.env.WHATSAPP_NUMBER || '263784958161';
   const waMessage = process.env.WHATSAPP_MESSAGE || "Hello Simply Amazing Construction & Engineering! I found you on your website and I'm interested in your services.";
   res.locals.whatsappLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
   next();

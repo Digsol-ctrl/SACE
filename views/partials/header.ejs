@@ -11,6 +11,7 @@
   <% if (admin) { %>
     <link rel="stylesheet" href="/css/admin.css">
   <% } %>
+  <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
   <div id="site-loader" class="site-loader" role="status" aria-live="polite" aria-label="Loading content">
@@ -39,18 +40,18 @@
       <nav class="main-nav" aria-label="Main navigation">
         <ul>
           <% if (isAdminRoute) { %>
-            <li><a href="/" class="nav-link">Home</a></li>
+            <li><a href="/" class="">Home</a></li>
             <% if (admin) { %>
-              <li><a href="/admin" class="nav-link">ADMIN</a></li>
+              <li><a href="/admin" class="">ADMIN</a></li>
             <% } %>
           <% } else { %>
-            <li><a href="#home" class="nav-link active">Home</a></li>
-            <li><a href="#about" class="nav-link">About Us</a></li>
-            <li><a href="#services" class="nav-link">Services</a></li>
-            <li><a href="/projects" class="nav-link">Projects</a></li>
-            <li><a href="#contact" class="nav-link">Contact</a></li>
+            <li><a href="/#home" class="active">Home</a></li>
+            <li><a href="/#about" class="">About Us</a></li>
+            <li><a href="/#services" class="">Services</a></li>
+            <li><a href="/#gallery" class="">Projects</a></li>
+            <li><a href="/#contact" class="">Contact</a></li>
             <% if (admin) { %>
-              <li><a href="/admin" class="nav-link">ADMIN</a></li>
+              <a href="/admin">ADMIN</a>
             <% } %>
           <% } %>
         </ul>

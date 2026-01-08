@@ -4,7 +4,7 @@
   <div class="admin-header">
     <h1><%= item && item._id ? 'Edit' : 'Add' %> Gallery Item</h1>
     <div class="admin-actions">
-      <a class="btn-secondary" href="/">Home</a>
+      <a class="btn-secondary" href="/admin">Dashboard</a>
       <a href="/admin/gallery" class="btn-admin">Back to list</a>
     </div>
   </div>
@@ -24,12 +24,13 @@
       </label>
 
       <label>Category
-    <select name="category">
-      <% const categories = ['Uncategorized','Residential','Commercial','Renovation']; %>
-      <% categories.forEach(function(c){ %>
-        <option value="<%= c %>" <%= (item && item.category === c) ? 'selected' : '' %>><%= c %></option>
-      <% }) %>
-    </select>
+        <select name="category">
+          <% const categories = ['Uncategorized','Residential','Commercial','Renovation']; %>
+          <% categories.forEach(function(c){ %>
+            <option value="<%= c %>" <%= (item && item.category === c) ? 'selected' : '' %>><%= c %></option>
+          <% }) %>
+        </select>
+      </label>
 
       <label>Caption
         <textarea name="caption"><%= item && item.caption ? item.caption : '' %></textarea>

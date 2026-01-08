@@ -47,8 +47,9 @@ router.get('/gallery', ensureAdmin, listGalleryAdmin);
 router.get('/gallery/new', ensureAdmin, newGalleryForm);
 router.post('/gallery', ensureAdmin, upload.single('image'), createGallery);
 router.post('/gallery/:id', ensureAdmin, upload.single('image'), updateGallery);
-
-
+router.get('/gallery/:id/edit', ensureAdmin, editGalleryForm);
+router.post('/gallery/:id', ensureAdmin, upload.single('image'), updateGallery);
+router.post('/gallery/:id/delete', ensureAdmin, deleteGallery);
 
 
 // Leads

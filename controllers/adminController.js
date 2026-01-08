@@ -91,7 +91,7 @@ export const createService = [
 export async function editServiceForm(req, res) {
   const service = await Service.findById(req.params.id).lean();
   if (!service) return res.redirect('/admin/services');
-  res.render('admin/service-form', { service, errors: [], title: 'SACE | Services' });
+  res.render('admin/service-form', { service, errors: [], title: 'SACE | Edit Services' });
 }
 
 export const updateService = [

@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
   initSmoothScrolling();
   initBackToTop();
   initActiveNavOnScroll();
+  initProjectFilters();
   initScrollAnimations();
+  initHashScroll();
 });
 
 function setCurrentYear() {
@@ -145,12 +147,113 @@ function initContactForm() {
 }
 
 function initSmoothScrolling() {
-  const navLinks = document.querySelectorAll('.nav-link');
-  navLinks.forEach(link => link.addEventListener('click', function(e) { e.preventDefault(); const targetId = this.getAttribute('href'); const targetSection = document.querySelector(targetId); if (targetSection) { const headerHeight = document.querySelector('.header').offsetHeight; const targetPosition = targetSection.offsetTop - headerHeight; window.scrollTo({ top: targetPosition, behavior: 'smooth' }); } }));
+  // delegated click handler — only handle anchors within the main-nav
+  document.addEventListener('click', function(e) {
+    const anchor = e.target.closest && e.target.closest('a');
+    if (!anchor) return;
+    const mainNav = document.querySelector('.main-nav');
+    if (!mainNav || !mainNav.contains(anchor)) return; // only handle nav links here
+
+    const href = anchor.getAttribute('href') || '';
+    if (!href.includes('#')) return; // not an anchor link
+
+    // determine target hash and path
+    let pathPart = '';
+    let hashPart = '';
+    try {
+      const url = new URL(href, window.location.origin);
+      pathPart = url.pathname || '';
+      hashPart = url.hash || '';
+    } catch (err) {
+      // fallback for relative or malformed hrefs
+      const parts = href.split('#');
+      pathPart = parts[0] || '';
+      hashPart = parts[1] ? '#' + parts[1] : '';
+    }
+
+    const currentPath = window.location.pathname || '/';
+    const targetPath = pathPart === '' ? currentPath : (pathPart === '/' ? '/' : pathPart);
+
+    // if the link targets a different page, allow navigation (browser will navigate, then initHashScroll will act on load)
+    if (targetPath !== currentPath && targetPath !== '/') return;
+
+    if (!hashPart) return; // nothing to scroll to
+
+    // resolve target by id or name
+    let target = document.querySelector(hashPart);
+    if (!target) {
+      const id = hashPart.replace(/^#/, '');
+      target = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
+    }
+
+    // Handle special 'home' target -> scroll to top
+    if (!target && (hashPart === '#home' || hashPart === '#top')) {
+      e.preventDefault();
+      const headerHeight = document.querySelector('.header') ? document.querySelector('.header').offsetHeight : 0;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      try { history.replaceState(null, '', targetPath + hashPart); } catch (err) {}
+      document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+      anchor.classList.add('active');
+      return;
+    }
+
+    // if still no target found, allow normal navigation
+    if (!target) return;
+
+    // Prevent default navigation and perform a reliable smooth scroll (with a retry)
+    e.preventDefault();
+
+    // close mobile nav if open
+    if (mainNav && mainNav.classList.contains('active')) {
+      mainNav.classList.remove('active');
+      const btnIcon = document.querySelector('.mobile-menu-btn i');
+      if (btnIcon) { btnIcon.classList.remove('fa-times'); btnIcon.classList.add('fa-bars'); document.body.style.overflow = ''; }
+    }
+
+    const headerHeight = document.querySelector('.header') ? document.querySelector('.header').offsetHeight : 0;
+    const computeTop = () => Math.round(target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 8);
+
+    const performScroll = () => {
+      const top = computeTop();
+      // debug log to help diagnose problems (remove if noisy)
+      console.debug('nav-scroll', { href, hashPart, targetExists: !!target, top });
+      window.scrollTo({ top, behavior: 'smooth' });
+      // try a small nudge after layout settles
+      setTimeout(() => { window.scrollTo({ top: computeTop(), behavior: 'smooth' }); }, 200);
+    };
+
+    // do the scroll, and update URL + active classes
+    performScroll();
+    try { history.replaceState(null, '', targetPath + hashPart); } catch (err) {}
+    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+    anchor.classList.add('active');
+  }, { passive: false });
+}
+
+function initHashScroll() {
+  // If the page was opened with a hash (e.g. /#contact), scroll smoothly to the target and set the active nav link
+  if (window.location.hash) {
+    const id = window.location.hash;
+    const target = document.querySelector(id);
+    if (target) {
+      const header = document.querySelector('.header');
+      const headerHeight = header ? header.offsetHeight : 0;
+      // small timeout to allow layout and header calc
+      setTimeout(() => {
+        const top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 8;
+        window.scrollTo({ top, behavior: 'smooth' });
+        // set active nav link that matches the hash (works for '/#hash' and '#hash')
+        const selector = `.nav-link[href$="${id}"]`;
+        document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+        const link = document.querySelector(selector);
+        if (link) link.classList.add('active');
+      }, 80);
+    }
+  }
 }
 
 function initBackToTop() { const backToTopBtn = document.querySelector('.back-to-top'); if (!backToTopBtn) return; window.addEventListener('scroll', function() { if (window.pageYOffset > 300) { backToTopBtn.classList.add('visible'); } else { backToTopBtn.classList.remove('visible'); } }); backToTopBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); }); }
 
-function initActiveNavOnScroll(){ const sections = document.querySelectorAll('section'); const navLinks = document.querySelectorAll('.nav-link'); window.addEventListener('scroll', function(){ let current = ''; sections.forEach(section => { const sectionTop = section.offsetTop; const sectionHeight = section.clientHeight; const headerHeight = document.querySelector('.header').offsetHeight; if (window.pageYOffset >= (sectionTop - headerHeight - 100)) { current = section.getAttribute('id'); } }); navLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('href') === `#${current}`) link.classList.add('active'); }); const header = document.querySelector('.header'); if (window.pageYOffset > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled'); }); }
+function initActiveNavOnScroll(){ const sections = document.querySelectorAll('section'); const navLinks = document.querySelectorAll('.nav-link'); window.addEventListener('scroll', function(){ let current = ''; sections.forEach(section => { const sectionTop = section.offsetTop; const sectionHeight = section.clientHeight; const headerHeight = document.querySelector('.header').offsetHeight; if (window.pageYOffset >= (sectionTop - headerHeight - 100)) { current = section.getAttribute('id'); } }); navLinks.forEach(link => { link.classList.remove('active'); const href = link.getAttribute('href') || ''; let hash = ''; try { hash = new URL(href, window.location.origin).hash || ''; } catch(e) { if (href.includes('#')) hash = '#' + href.split('#').pop(); } if (hash === `#${current}`) link.classList.add('active'); }); const header = document.querySelector('.header'); if (window.pageYOffset > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled'); }); }
 
-function initScrollAnimations() { const animateElements = document.querySelectorAll('.animate-on-scroll, .service-card, .mission-card, .stat-item, .gallery-item'); const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; } }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }); animateElements.forEach(element => { element.style.opacity = '0'; element.style.transform = 'translateY(20px)'; element.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; observer.observe(element); }); }
+function initScrollAnimations() { const animateElements = document.querySelectorAll('.animate-on-scroll, .service-card, .mission-card, .stat-item, .gallery-item, .project-card'); const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; } }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }); animateElements.forEach(element => { element.style.opacity = '0'; element.style.transform = 'translateY(20px)'; element.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; observer.observe(element); }); }

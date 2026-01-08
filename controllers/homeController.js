@@ -6,7 +6,10 @@ export async function home(req, res, next) {
     const services = await Service.find().limit(6);
 
     // Prefer DB gallery items; if none exist, use a small static fallback
-    let gallery = await GalleryItem.find().sort({ createdAt: -1 }).limit(9);
+    const gallery = await GalleryItem.aggregate([{ $sample: { size: 6 } }]);
+    
+    const totalProjects = await GalleryItem.countDocuments();
+
     if (!gallery || gallery.length === 0) {
       gallery = [
         { imageUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', title: 'Modern Villa', category: 'Residential' },
@@ -15,7 +18,12 @@ export async function home(req, res, next) {
       ];
     }
 
-    res.render('home', { title: 'Simply Amazing Construction & Engineering | Building Excellence', services, gallery });
+    res.render('home', {
+       title: 'Simply Amazing Construction & Engineering | Building Excellence',
+       services,
+       gallery,
+       hasMoreProjects: totalProjects > gallery.length
+        });
   } catch (err) {
     next(err);
   }
