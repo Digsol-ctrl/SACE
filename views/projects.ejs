@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+
+<section class="projects-hero">
+  <div class="container">
+    <h1>Our Projects</h1>
+    <p class="lead">A curated showcase of completed works — residential, commercial and renovation projects with quality and care.</p>
+  </div>
+</section>
+
+<section class="projects-list section">
+  <div class="container">
+    <div class="projects-grid">
+      <% (projects || []).forEach(p => { %>
+        <article class="project-card">
+          <div class="project-image">
+            <img src="<%= p.imageUrl %>" alt="<%= p.title %>" loading="lazy">
+          </div>
+          <div class="project-body">
+            <h3><%= p.title %></h3>
+            <p class="muted"><%= p.category %></p>
+            <p><%= p.caption || '' %></p>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
