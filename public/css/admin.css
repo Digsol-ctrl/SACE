@@ -10,8 +10,9 @@ body{background:var(--admin-bg)}
 .admin-table th,.admin-table td{padding:10px 12px;text-align:left;border-bottom:1px solid #eef2f7;font-size:0.95rem}
 .admin-table img{max-width:120px;height:auto;border-radius:6px}
 .admin-form label{display:block;margin-bottom:10px;font-size:0.95rem;color:var(--muted)}
-.admin-form input[type=text],.admin-form input[type=url],.admin-form textarea{width:100%;padding:10px;border:1px solid #e6eef7;border-radius:6px;background:#fff}
-.admin-form textarea{min-height:120px}
++.admin-form input[type=text],.admin-form input[type=url],.admin-form textarea,.admin-form select{width:100%;padding:10px;border:1px solid #e6eef7;border-radius:6px;background:#fff}
++.admin-form textarea{min-height:120px}
++.admin-form select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%, #000 50%),linear-gradient(135deg,#000 50%,transparent 50%);background-position:calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px);background-size:6px 6px,6px 6px;background-repeat:no-repeat;padding-right:36px}
 .btn-admin{display:inline-block;padding:10px 14px;background:var(--accent);color:#fff;border-radius:8px;border:none;cursor:pointer;font-weight:600}
 .btn-danger{background:#ef4444}
 .admin-actions .btn-secondary{background:#374151}

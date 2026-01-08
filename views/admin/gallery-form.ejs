@@ -24,8 +24,12 @@
       </label>
 
       <label>Category
-        <input name="category" value="<%= item && item.category ? item.category : '' %>">
-      </label>
+    <select name="category">
+      <% const categories = ['Uncategorized','Residential','Commercial','Renovation']; %>
+      <% categories.forEach(function(c){ %>
+        <option value="<%= c %>" <%= (item && item.category === c) ? 'selected' : '' %>><%= c %></option>
+      <% }) %>
+    </select>
 
       <label>Caption
         <textarea name="caption"><%= item && item.caption ? item.caption : '' %></textarea>
