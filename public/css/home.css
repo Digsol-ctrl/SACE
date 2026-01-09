@@ -814,6 +814,12 @@ main .grid{display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:start}
     height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
     display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
 }
 
 /* Projects page */
@@ -827,14 +833,6 @@ main .grid{display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:start}
 .project-body p.muted{color:#6b7280;margin:0 0 8px}
 @media (max-width:900px){.projects-grid{grid-template-columns:repeat(2,1fr)}.project-image img{height:200px}}
 @media (max-width:600px){.projects-grid{grid-template-columns:1fr}.projects-hero{padding:80px 12px}.project-image img{height:160px}}
-
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all var(--transition-normal);
-}
 
 .lightbox.active {
     opacity: 1;
@@ -872,42 +870,58 @@ main .grid{display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:start}
 }
 
 .lightbox-nav {
-    position: absolute;
+    position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     color: var(--white);
     border: none;
-    width: 50px;
-    height: 50px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     font-size: 1.2rem;
     cursor: pointer;
-    z-index: 10;
-    transition: background-color var(--transition-normal);
+    z-index: 3000;
+    transition: background-color var(--transition-normal), transform .15s ease;
+    display:flex;align-items:center;justify-content:center;
 }
 
 .lightbox-nav:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.85);
+    transform: scale(1.05);
 }
 
 .lightbox-nav.prev {
-    left: 15px;
+    left: 18px;
 }
 
 .lightbox-nav.next {
-    right: 15px;
+    right: 18px;
 }
 
 .lightbox-image-container {
-    height: 400px;
-    overflow: hidden;
+    height: 60vh;
+    max-height: 60vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-color: #000;
 }
 
 .lightbox-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+@media (max-width:600px) {
+    .lightbox-content { width: 96%; }
+    .lightbox-image-container { height: 50vh; }
+    .lightbox-nav { width: 40px; height: 40px; }
+    .lightbox-close { width: 36px; height: 36px; }
+    .lightbox-nav.prev { left: 8px; }
+    .lightbox-nav.next { right: 8px; }
 }
 
 .lightbox-info {

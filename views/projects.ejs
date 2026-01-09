@@ -1,4 +1,4 @@
-<%- include('../partials/header') %>
+<%- include('partials/header') %>
 <style>
     /* ============================================
    ADMIN GALLERY PAGE STYLES
@@ -697,6 +697,8 @@
     <h1>Project Gallery</h1>
     <div class="admin-actions">
       <a class="btn-secondary" href="/admin">← Dashboard</a>
+      <a class="btn-secondary" href="/projects" target="_blank" rel="noopener noreferrer">View site</a>
+      <a class="btn-secondary" href="/services" target="_blank" rel="noopener noreferrer">View Services</a>
       <a class="btn-admin" href="/admin/gallery/new">
         <i class="fas fa-plus"></i> Add New Project
       </a>
@@ -822,7 +824,7 @@
   <% } %>
 </main>
 
-<%- include('../partials/footer') %>
+<%- include('partials/footer') %>
 
 <script>
   // Search and filter functionality

@@ -89,6 +89,7 @@ function initGallery() {
 
   const lightbox = document.getElementById('lightbox');
   if (!lightbox) return;
+  lightbox.setAttribute('aria-hidden', 'true');
   const lightboxImage = lightbox.querySelector('.lightbox-image');
   const lightboxTitle = lightbox.querySelector('.lightbox-title');
   const lightboxCategory = lightbox.querySelector('.lightbox-category');
@@ -96,14 +97,20 @@ function initGallery() {
   const prevBtn = lightbox.querySelector('.lightbox-nav.prev');
   const nextBtn = lightbox.querySelector('.lightbox-nav.next');
   const items = Array.from(document.querySelectorAll('.gallery-item'));
+  if (items.length === 0) return;
   let current = 0;
-  const images = items.map((item, index) => ({ src: item.querySelector('img').getAttribute('src'), title: item.querySelector('h3') ? item.querySelector('h3').textContent : '', category: item.querySelector('p') ? item.querySelector('p').textContent : '', index }));
-  items.forEach((item, index) => item.addEventListener('click', () => openLightbox(index)));
-  function openLightbox(index){ current = index; updateLightbox(); lightbox.classList.add('active'); document.body.style.overflow = 'hidden'; }
-  function closeLightbox(){ lightbox.classList.remove('active'); document.body.style.overflow = ''; }
-  function updateLightbox(){ const image = images[current]; lightboxImage.setAttribute('src', image.src); lightboxImage.setAttribute('alt', image.title); lightboxTitle.textContent = image.title; lightboxCategory.textContent = image.category; }
-  function showNextImage(){ current = (current + 1) % images.length; updateLightbox(); }
-  function showPrevImage(){ current = (current - 1 + images.length) % images.length; updateLightbox(); }
+  const images = items.map((item, index) => ({ src: item.querySelector('img') ? item.querySelector('img').getAttribute('src') : '', title: item.querySelector('h3') ? item.querySelector('h3').textContent : '', category: item.querySelector('p') ? item.querySelector('p').textContent : '', index }));
+  let lastFocusedElement = null;
+  items.forEach((item, index) => {
+    item.setAttribute('tabindex', '0');
+    item.addEventListener('click', () => openLightbox(index));
+    item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(index); } });
+  });
+  function openLightbox(index){ current = index; updateLightbox(); lightbox.classList.add('active'); lightbox.setAttribute('aria-hidden', 'false'); lastFocusedElement = document.activeElement; if (closeBtn) closeBtn.focus(); document.body.style.overflow = 'hidden'; }
+  function closeLightbox(){ lightbox.classList.remove('active'); lightbox.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') lastFocusedElement.focus(); }
+  function updateLightbox(){ const image = images[current] || {}; lightboxImage.setAttribute('src', image.src || ''); lightboxImage.setAttribute('alt', image.title || ''); lightboxTitle.textContent = image.title || ''; lightboxCategory.textContent = image.category || ''; }
+  function showNextImage(){ if (images.length === 0) return; current = (current + 1) % images.length; updateLightbox(); }
+  function showPrevImage(){ if (images.length === 0) return; current = (current - 1 + images.length) % images.length; updateLightbox(); }
   closeBtn.addEventListener('click', closeLightbox);
   if (prevBtn) prevBtn.addEventListener('click', showPrevImage);
   if (nextBtn) nextBtn.addEventListener('click', showNextImage);

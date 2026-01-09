@@ -25,18 +25,28 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Session: use Mongo store in production
-app.use(session({
+// Configure session store safely — fall back to in-memory store when MONGO_URI is not set
+const sessionOptions = {
   secret: process.env.SESSION_SECRET || 'change-me',
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     maxAge: 1000 * 60 * 60 * 24, // 1 day
   }
-}));
+};
+if (process.env.MONGO_URI) {
+  try {
+    sessionOptions.store = MongoStore.create({ mongoUrl: process.env.MONGO_URI });
+  } catch (err) {
+    console.warn('Warning: failed to initialize MongoStore, falling back to default session store', err && err.message ? err.message : err);
+  }
+} else {
+  console.warn('MONGO_URI not set — using in-memory session store (not for production)');
+}
+app.use(session(sessionOptions));
 
 app.get('/health', (req, res) => res.status(200).json({ ok: true }));
 
@@ -67,8 +77,16 @@ app.use((req, res, next) => {
   next();
 });
 
-// connect to DB before mounting routes that need it
-await connectDB(process.env.MONGO_URI);
+// connect to DB before mounting routes that need it (skip if MONGO_URI not set)
+if (process.env.MONGO_URI) {
+  try {
+    await connectDB(process.env.MONGO_URI);
+  } catch (err) {
+    console.error('Failed to connect to MongoDB; some features may be disabled.', err && err.message ? err.message : err);
+  }
+} else {
+  console.warn('MONGO_URI not set — skipping DB connection (read-only mode)');
+}
 
 app.use('/services', servicesRoutes);
 app.use('/', indexRoutes);

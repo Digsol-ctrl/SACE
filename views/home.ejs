@@ -132,7 +132,13 @@
 <!-- Gallery Section (dynamic fallback) -->
 <section id="gallery" class="section gallery">
   <div class="container">
-    <div class="section-header"><h2 class="section-title">Project Gallery</h2><p class="section-subtitle">A showcase of our quality work</p></div>
+    <div class="section-header">
+      <h2 class="section-title">Project Gallery</h2>
+      <p class="section-subtitle">A showcase of our quality work</p>
+      <div class="projects-cta text-center" style="margin-top:12px;">
+        <a href="/projects" class="btn btn-secondary btn-projects" aria-label="View our projects gallery">View our projects gallery</a>
+      </div>
+    </div>
     
     <% if (hasMoreProjects) { %> 
       <div class="projects-cta text-center"
@@ -159,8 +165,8 @@
     </div>
 
     <!-- Lightbox Modal -->
-    <div class="lightbox" id="lightbox">
-      <div class="lightbox-content">
+    <div class="lightbox" id="lightbox" role="dialog" aria-hidden="true" aria-modal="true" aria-label="Project image lightbox">
+      <div class="lightbox-content" tabindex="-1">
         <button class="lightbox-close" aria-label="Close lightbox"><i class="fas fa-times"></i></button>
         <button class="lightbox-nav prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
         <button class="lightbox-nav next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
