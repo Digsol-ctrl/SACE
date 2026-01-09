@@ -1,13 +1,12 @@
 <%- include('../partials/header') %>
+<%- include('../partials/admin-styles') %>
 
 <main class="admin-container">
   <div class="admin-header">
     <h1>Services</h1>
     <div class="admin-actions">
-      <a class="btn-secondary" href="/admin">Dashboard</a>
-      <a class="btn-secondary" href="/services" target="_blank" rel="noopener noreferrer">View site</a>
-      <a class="btn-secondary" href="/projects" target="_blank" rel="noopener noreferrer">View Projects</a>
-      <a class="btn-admin" href="/admin/services/new">+ Add Service</a>
+      <a class="btn-secondary" href="/admin">← Dashboard</a>
+      <a class="btn-admin" href="/admin/services/new"><i class="fas fa-plus"></i> Add Service</a>
     </div>
   </div>
 
@@ -20,9 +19,9 @@
           <td data-label="Title"><%= s.title %></td>
           <td data-label="Slug"><%= s.slug %></td>
           <td data-label="Actions">
-            <a class="btn-admin" href="/admin/services/<%= s._id %>/edit">Edit</a>
-            <form method="post" action="/admin/services/<%= s._id %>/delete" style="display:inline">
-              <button class="btn-admin btn-danger" type="submit" onclick="return confirm('Delete this service?')">Delete</button>
+            <a class="icon-btn edit" href="/admin/services/<%= s._id %>/edit" title="Edit"><i class="fas fa-edit"></i></a>
+            <form method="post" action="/admin/services/<%= s._id %>/delete" class="delete-form" style="display:inline">
+              <button class="icon-btn delete" type="submit" title="Delete"><i class="fas fa-trash"></i></button>
             </form>
           </td>
         </tr>

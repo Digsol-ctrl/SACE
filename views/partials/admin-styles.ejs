@@ -1,0 +1,76 @@
+<style>
+/* Minimal admin projects styles (shared) */
+.admin-container{
+  max-width:1100px;
+  margin:40px auto;
+  padding:24px;
+  background:#fff;
+  border:1px solid #eef2f6;
+  border-radius:10px;
+  font-family:var(--font-body);
+}
+.admin-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+  padding-bottom:10px;
+  border-bottom:1px solid #eee;
+}
+.admin-header h1{font-size:1.5rem;margin:0;color:var(--dark-gray);font-weight:700}
+.admin-actions{display:flex;gap:12px;align-items:center}
+.btn-admin{background:var(--primary-blue);color:#fff;padding:8px 12px;border-radius:8px;border:none;text-decoration:none;font-weight:600;font-size:0.9rem}
+.btn-secondary{background:transparent;color:var(--primary-blue);padding:8px 12px;border-radius:8px;border:1px solid transparent;text-decoration:none;font-weight:600;font-size:0.9rem}
+.stats-overview{display:flex;gap:12px;margin-bottom:18px}
+.stat-card{background:transparent;padding:8px 12px;border-radius:8px;border:1px solid #f0f3f8;min-width:120px;text-align:center}
+.stat-number{font-size:1.25rem;font-weight:700;color:var(--primary-blue)}
+.stat-label{font-size:0.75rem;color:var(--medium-gray);text-transform:uppercase;letter-spacing:0.5px}
+.admin-filters{display:flex;gap:12px;align-items:center;margin-bottom:18px}
+.search-box input,.filter-select,.sort-select{padding:8px 10px;border:1px solid #e9ecef;border-radius:8px;background:#f8fafc}
+.gallery-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.gallery-card{background:#fff;border:1px solid #eef2f6;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s ease,box-shadow .15s ease}
+.gallery-card:hover{transform:translateY(-4px);box-shadow:0 8px 18px rgba(13,38,76,0.06)}
+.gallery-card-image{height:160px;overflow:hidden;background:#f5f7fa;display:flex;align-items:center;justify-content:center}
+.gallery-card-image img{width:100%;height:100%;object-fit:cover}
+.gallery-card-body{padding:12px;display:flex;flex-direction:column;gap:8px;flex:1}
+.gallery-title{font-size:1rem;font-weight:700;margin:0;color:var(--dark-gray)}
+.gallery-meta{font-size:0.8rem;color:var(--medium-gray)}
+.gallery-caption{font-size:0.9rem;color:var(--medium-gray);flex:1;overflow:hidden}
+.gallery-actions{display:flex;gap:8px;align-items:center;margin-top:8px}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:6px;border:1px solid #e9eef6;background:transparent;color:var(--primary-blue);cursor:pointer;text-decoration:none}
+.icon-btn.edit{border-color:#dbe9ff}
+.icon-btn.delete{border-color:#fdecea;color:#c82333}
+.muted{color:var(--medium-gray);text-align:center;padding:40px 20px;font-size:1rem}
+@media (max-width:768px){.admin-header{flex-direction:column;align-items:flex-start}.admin-actions{width:100%;justify-content:flex-start}.gallery-list{grid-template-columns:1fr}}
+
+/* Admin table */
+.admin-table{width:100%;border-collapse:collapse;background:transparent}
+.admin-table thead th{padding:10px;border-bottom:1px solid #eef2f6;text-align:left;font-weight:700;font-size:0.9rem;color:var(--dark-gray)}
+.admin-table tbody td{padding:10px;border-bottom:1px solid #f5f7fa}
+.admin-table tr:last-child td{border-bottom:none}
+
+/* Admin form responsiveness */
+.admin-form label{display:block;margin-bottom:12px;font-weight:600;color:var(--dark-gray)}
+.admin-form input[type="text"],.admin-form input[type="url"],.admin-form input[type="file"],.admin-form select,.admin-form textarea{width:100%;padding:10px;border:1px solid #e9ecef;border-radius:8px;background:#fff;box-sizing:border-box}
+.admin-form textarea{min-height:120px}
+#previewWrap{margin-top:10px}
+.admin-image-preview{max-width:320px;width:100%;height:auto;border-radius:6px;display:block}
+@media (max-width:768px){
+  .admin-card{padding:16px}
+  .admin-form input,.admin-form select,.admin-form textarea{font-size:0.95rem}
+  .btn-admin{width:100%;padding:10px}
+}
+</style>
+
+<script>
+// Centralized delete confirmation for admin pages
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.delete-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+      if (!confirm('Are you sure you want to delete this item? This action cannot be undone.')) {
+        e.preventDefault();
+      }
+    });
+  });
+});
+</script>
