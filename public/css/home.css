@@ -1,4 +1,6 @@
-/* Paste of the user's provided homepage CSS. Trimmed for readability here; keep full styles in production. */
+*{
+    border: 1px solid red;
+}
 :root{--primary-blue:#1a4a8d;--secondary-blue:#2c6bb5;--light-blue:#e8f0fe;--primary-orange:#ff7b00;--secondary-orange:#ff9a3d;--light-orange:#fff5eb;--dark-gray:#333;--medium-gray:#666;--light-gray:#f5f5f5;--white:#fff;--black:#000;--font-heading:'Poppins',sans-serif;--font-body:'Roboto',sans-serif;--spacing-xs:.5rem;--spacing-sm:1rem;--spacing-md:2rem;--spacing-lg:3rem;--spacing-xl:4rem;--radius-sm:4px;--radius-md:8px;--radius-lg:16px;--transition-fast:.2s ease;--transition-normal:.3s ease;--transition-slow:.5s ease;--shadow-sm:0 2px 8px rgba(0,0,0,.1);--shadow-md:0 4px 16px rgba(0,0,0,.1);--shadow-lg:0 8px 24px rgba(0,0,0,.15)}
 html{scroll-behavior:smooth;scroll-padding-top:80px}body{font-family:var(--font-body);font-size:16px;line-height:1.6;color:var(--dark-gray);background-color:var(--white);overflow-x:hidden}
 .container{width:100%;max-width:1200px;margin:0 auto;padding:0 var(--spacing-sm)}
@@ -267,7 +269,7 @@ a:hover {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     background-color: var(--white);
     box-shadow: var(--shadow-sm);
     z-index: 1000;
@@ -527,7 +529,7 @@ a:hover {
 }
 
 .about-image img {
-    width: 150%;
+    width: 100%;
     height: auto;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
@@ -638,8 +640,8 @@ main .grid{display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:start}
 }
 
 .service-icon {
+    margin:auto;
     font-size: 2.5rem;
-    color: var(--primary-blue);
     margin-bottom: var(--spacing-md);
 }
 

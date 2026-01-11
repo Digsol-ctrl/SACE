@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
   initSmoothScrolling();
   initBackToTop();
   initActiveNavOnScroll();
-  initProjectFilters();
   initScrollAnimations();
   initHashScroll();
 });
