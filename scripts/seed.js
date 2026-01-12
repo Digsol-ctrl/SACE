@@ -10,9 +10,9 @@ const servicesData = [
 ];
 
 const galleryData = [
-  { title: 'Modern Villa', imageUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80', category: 'Residential' },
-  { title: 'Office Complex', imageUrl: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80', category: 'Commercial' },
-  { title: 'Kitchen Remodel', imageUrl: 'https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80', category: 'Renovation' }
+  { title: 'Modern Villa', images: ['/images/construction_team.webp'], category: 'Residential' },
+  { title: 'Office Complex', images: ['/images/construction_team.webp'], category: 'Commercial' },
+  { title: 'Kitchen Remodel', images: ['/images/construction_team.webp'], category: 'Renovation' }
 ];
 
 (async function seed() {

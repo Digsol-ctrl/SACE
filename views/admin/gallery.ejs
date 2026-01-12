@@ -1,7 +1,9 @@
 <%- include('../partials/header') %>
 <%- include('../partials/admin-styles') %>
 
-<main class="admin-container">
+<main class="admin-container mt-2 "
+style="margin-top: 100px;"
+>
   <div class="admin-header">
     <h1>Project Gallery</h1>
     <div class="admin-actions">
@@ -14,10 +16,20 @@
     <% if (items && items.length) { %>
       <div class="gallery-list">
         <% items.forEach(function(item) { %>
-          <article class="gallery-card">
+          <article class="gallery-card" data-images='<%= JSON.stringify(item.images || []) %>'>
             <div class="gallery-card-image">
-              <% if (item.imageUrl) { %>
-                <img src="<%= item.imageUrl %>" alt="<%= item.title %>" loading="lazy" />
+              <% if (item.images && item.images.length) { %>
+                <div class="card-carousel" data-images='<%= JSON.stringify(item.images.slice(0,6)) %>'>
+                  <button class="carousel-nav prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+                  <div class="carousel-track">
+                    <% item.images.slice(0,6).forEach(function(src, idx){ %>
+                      <div class="carousel-slide" data-index="<%= idx %>">
+                        <img src="<%= src %>" alt="<%= item.title %> - image <%= idx+1 %>" loading="lazy">
+                      </div>
+                    <% }) %>
+                  </div>
+                  <button class="carousel-nav next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+                </div>
               <% } else { %>
                 <div class="no-image muted">No image</div>
               <% } %>

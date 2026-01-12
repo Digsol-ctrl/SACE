@@ -6,7 +6,7 @@
 .services-hero {
   position: relative;
   background: linear-gradient(135deg, rgba(26, 74, 141, 0.9) 0%, rgba(0, 0, 0, 0.8) 100%),
-              url('https://images.unsplash.com/photo-1519510427849-0f0cb7e8e87d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+              url('/images/construction_team.webp');
   background-size: cover;
   background-position: center;
   color: white;
@@ -952,52 +952,3 @@ main.max-w-4xl {
 
 <%- include('partials/footer') %>
 
-<script>
-  // Service filtering functionality
-  document.addEventListener('DOMContentLoaded', function() {
-    const categoryButtons = document.querySelectorAll('.category-btn');
-    const serviceCards = document.querySelectorAll('.service-card');
-    
-    categoryButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        // Remove active class from all buttons
-        categoryButtons.forEach(btn => btn.classList.remove('active'));
-        
-        // Add active class to clicked button
-        this.classList.add('active');
-        
-        const category = this.getAttribute('data-category');
-        
-        // Show/hide service cards based on category
-        serviceCards.forEach(card => {
-          const cardCategory = card.getAttribute('data-category');
-          
-          if (category === 'all' || category === cardCategory) {
-            card.style.display = 'block';
-            setTimeout(() => {
-              card.style.opacity = '1';
-              card.style.transform = 'translateY(0)';
-            }, 100);
-          } else {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-              card.style.display = 'none';
-            }, 300);
-          }
-        });
-      });
-    });
-    
-    // Add hover effect for service cards
-    serviceCards.forEach(card => {
-      card.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-15px)';
-      });
-      
-      card.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0)';
-      });
-    });
-  });
-</script>

@@ -16,7 +16,7 @@ router.get('/test-upload', (req, res) => {
       <body>
         <h1>Test upload</h1>
         <form method="post" action="/test-upload" enctype="multipart/form-data">
-          <label>Choose image: <input type="file" name="image" accept="image/*" required></label><br>
+          <label>Choose images: <input type="file" name="images" accept="image/*" multiple required></label><br>
           <label>Title: <input name="title" /></label><br>
           <label>Category: <input name="category" /></label><br>
           <label>Caption: <input name="caption" /></label><br>
@@ -27,11 +27,11 @@ router.get('/test-upload', (req, res) => {
   `);
 });
 
-router.post('/test-upload', upload.single('image'), (req, res) => {
-  if (req.file) {
-    return res.json({ ok: true, filename: req.file.filename, url: '/uploads/' + req.file.filename });
+router.post('/test-upload', upload.array('images', 6), (req, res) => {
+  if (req.files && req.files.length) {
+    return res.json({ ok: true, files: req.files.map(f => ({ filename: f.filename, url: '/uploads/' + f.filename })) });
   }
-  res.status(400).json({ ok: false, error: 'No file uploaded' });
+  res.status(400).json({ ok: false, error: 'No files uploaded' });
 });
 
 // Projects page (dedicated gallery)

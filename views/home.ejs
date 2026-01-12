@@ -157,8 +157,22 @@
 
     <div class="gallery-grid">
       <% (gallery || []).forEach(item => { %>
-        <div class="gallery-item" data-category="<%= (item.category || '').toLowerCase() %>">
-          <img src="<%= item.imageUrl || item.src || '' %>" alt="<%= item.title %>" loading="lazy">
+        <div class="gallery-item" data-category="<%= (item.category || '').toLowerCase() %>" data-images='<%= JSON.stringify(item.images || []) %>'>
+          <% if (item.images && item.images.length) { %>
+            <div class="card-carousel" data-images='<%= JSON.stringify(item.images.slice(0,6)) %>'>
+              <button class="carousel-nav prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+              <div class="carousel-track">
+                <% item.images.slice(0,6).forEach(function(src, idx){ %>
+                  <div class="carousel-slide" data-index="<%= idx %>">
+                    <img src="<%= src %>" alt="<%= item.title %> - image <%= idx+1 %>" loading="lazy">
+                  </div>
+                <% }) %>
+              </div>
+              <button class="carousel-nav next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+            </div>
+          <% } else { %>
+            <div class="no-image muted">No image</div>
+          <% } %>
           <div class="gallery-overlay"><div class="gallery-info"><h3><%= item.title %></h3><p><%= item.category %></p></div></div>
         </div>
       <% }) %>
@@ -168,9 +182,7 @@
     <div class="lightbox" id="lightbox" role="dialog" aria-hidden="true" aria-modal="true" aria-label="Project image lightbox">
       <div class="lightbox-content" tabindex="-1">
         <button class="lightbox-close" aria-label="Close lightbox"><i class="fas fa-times"></i></button>
-        <button class="lightbox-nav prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
-        <button class="lightbox-nav next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
-        <div class="lightbox-image-container"><img src="" alt="" class="lightbox-image"></div>
+        <div class="lightbox-carousel-wrapper"><!-- dynamic lightbox carousel injected here --></div>
         <div class="lightbox-info"><h3 class="lightbox-title"></h3><p class="lightbox-category"></p></div>
       </div>
     </div>
@@ -183,6 +195,8 @@
       <a href="/projects" class="btn btn-secondary btn-projects" aria-label="View all projects">See More Of Our Projects</a>
     </div>
   <% } %>
+
+
 </section>
 
 <!-- Contact Section -->

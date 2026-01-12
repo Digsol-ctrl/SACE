@@ -149,15 +149,18 @@ export const createGallery = [
       caption: req.body.caption || ''
     };
 
-    // Accept either an uploaded file or a pasted image URL
-    if (req.file) {
-      data.imageUrl = '/uploads/' + req.file.filename;
-    } else if (req.body.imageUrl && req.body.imageUrl.trim()) {
-      data.imageUrl = req.body.imageUrl.trim();
-    } else {
-      return res.render('admin/gallery-form', { item: data, errors: ["Image file or Image URL is required"] })
+    // collect images from uploaded files and textarea (support up to 6 images)
+    const images = [];
+    if (req.files && req.files.length) images.push(...req.files.map(f => '/uploads/' + f.filename));
+    if (req.body.imageUrls) {
+      const lines = (typeof req.body.imageUrls === 'string' ? req.body.imageUrls.split(/[\r\n,]+/) : req.body.imageUrls);
+      lines.forEach(u => { const s = (u || '').trim(); if (s) images.push(s); });
     }
 
+    // dedupe and limit
+    const finalImages = [...new Set(images)].slice(0, 6);
+    if (finalImages.length === 0) return res.render('admin/gallery-form', { item: data, errors: ['At least one image is required'] });
+    data.images = finalImages;
 
     // Other validation errors
     if (!errors.isEmpty()){
@@ -172,7 +175,7 @@ export const createGallery = [
 export async function editGalleryForm(req, res) {
   const item = await GalleryItem.findById(req.params.id).lean();
   if (!item) return res.redirect('/admin/gallery');
-  res.render('admin/gallery-form', { item, title: 'Edit Projects Form', errors: [], title: 'Edit Projects'});
+  res.render('admin/gallery-form', { item, errors: [], title: 'Edit Projects' });
 }
 
 export const updateGallery = [
@@ -189,26 +192,33 @@ export const updateGallery = [
       caption: req.body.caption || ''
     };
 
-    if (req.file) {
-      // remove old uploaded file (only if it was in /uploads)
-      if (item.imageUrl && item.imageUrl.startsWith('/uploads/')) {
-        try {
-          await fs.unlink(path.join(process.cwd(), 'public', item.imageUrl));
-        } catch (e) { /* ignore deletion errors */ }
+    // Build new images list if new files/URLs provided, otherwise keep existing
+    const newImages = [];
+    if (req.files && req.files.length) newImages.push(...req.files.map(f => '/uploads/' + f.filename));
+    if (req.body.imageUrls) {
+      const lines = (typeof req.body.imageUrls === 'string' ? req.body.imageUrls.split(/[\r\n,]+/) : req.body.imageUrls);
+      lines.forEach(u => { const s = (u || '').trim(); if (s) newImages.push(s); });
+    }
+    const finalNewImages = [...new Set(newImages)].slice(0, 6);
+
+    if (finalNewImages.length > 0) {
+      // remove old uploaded files that are not in new list
+      const oldUploaded = (item.images || []).filter(u => u && u.startsWith('/uploads/'));
+      const toDelete = oldUploaded.filter(u => !finalNewImages.includes(u));
+      for (const p of toDelete) {
+        try { await fs.unlink(path.join(process.cwd(), 'public', p)); } catch (e) { /* ignore */ }
       }
-      update.imageUrl = '/uploads/' + req.file.filename;
-    } else if (req.body.imageUrl && req.body.imageUrl.trim()) {
-      // allow changing to an external URL
-      update.imageUrl = req.body.imageUrl.trim();
+      update.images = finalNewImages;
     } else {
-      // keep existing image if no new upload or URL
-      update.imageUrl = item.imageUrl;
+      // keep existing
+      update.images = item.images || [];
     }
 
     if (!errors.isEmpty()) {
       update._id = id;
       return res.render('admin/gallery-form', { item: update, errors: errors.array().map(e => e.msg), title: 'Edit Project' });
     }
+
     await GalleryItem.findByIdAndUpdate(id, update);
     res.redirect('/admin/gallery');
   }
@@ -216,10 +226,12 @@ export const updateGallery = [
 
 export async function deleteGallery(req, res) {
   const item = await GalleryItem.findById(req.params.id);
-  if (item && item.imageUrl && item.imageUrl.startsWith('/uploads/')) {
-    try {
-      await fs.unlink(path.join(process.cwd(), 'public', item.imageUrl));
-    } catch (e) { /* ignore deletion errors */ }
+  if (item && Array.isArray(item.images)) {
+    for (const img of item.images) {
+      if (img && img.startsWith('/uploads/')) {
+        try { await fs.unlink(path.join(process.cwd(), 'public', img)); } catch (e) { /* ignore */ }
+      }
+    }
   }
   await GalleryItem.findByIdAndDelete(req.params.id);
   res.redirect('/admin/gallery');

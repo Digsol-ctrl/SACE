@@ -20,7 +20,7 @@
     </div>
     <div class="stat-card">
       <div class="stat-number">
-        <% const withoutImages = items ? items.filter(item => !item.imageUrl).length : 0; %>
+        <% const withoutImages = items ? items.filter(item => !(item.images && item.images.length)).length : 0; %>
         <%= withoutImages %>
       </div>
       <div class="stat-label">Needs Images</div>
@@ -73,10 +73,10 @@
           <article class="gallery-card" 
                    data-title="<%= item.title.toLowerCase() %>"
                    data-category="<%= item.category || '' %>"
-                   data-date="<%= item.createdAt || '' %>">
+                   data-date="<%= item.createdAt || '' %>" data-images='<%= JSON.stringify(item.images || []) %>'>
             <div class="gallery-card-image">
-              <% if (item.imageUrl) { %>
-                <img src="<%= item.imageUrl %>" alt="<%= item.title %>" loading="lazy" />
+              <% if (item.images && item.images.length) { %>
+                <img src="<%= item.images[0] %>" alt="<%= item.title %>" loading="lazy" />
               <% } else { %>
                 <div class="no-image muted">No image</div>
               <% } %>
@@ -111,10 +111,20 @@
     <% if (items && items.length) { %>
       <div class="projects-grid">
         <% items.forEach(function(item) { %>
-          <article class="project-card">
+          <article class="project-card" data-images='<%= JSON.stringify(item.images || []) %>'>
             <div class="project-image">
-              <% if (item.imageUrl) { %>
-                <img src="<%= item.imageUrl %>" alt="<%= item.title %>" loading="lazy" />
+              <% if (item.images && item.images.length) { %>
+                <div class="card-carousel" data-images='<%= JSON.stringify(item.images.slice(0,6)) %>'>
+                  <button class="carousel-nav prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+                  <div class="carousel-track">
+                    <% item.images.slice(0,6).forEach(function(src, idx){ %>
+                      <div class="carousel-slide" data-index="<%= idx %>">
+                        <img src="<%= src %>" alt="<%= item.title %> - image <%= idx+1 %>" loading="lazy">
+                      </div>
+                    <% }) %>
+                  </div>
+                  <button class="carousel-nav next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+                </div>
               <% } else { %>
                 <div class="no-image muted">No image</div>
               <% } %>
@@ -127,6 +137,16 @@
           </article>
         <% }) %>
       </div>
+
+      <!-- Lightbox Modal (projects page) -->
+      <div class="lightbox" id="lightbox" role="dialog" aria-hidden="true" aria-modal="true" aria-label="Project image lightbox">
+        <div class="lightbox-content" tabindex="-1">
+          <button class="lightbox-close" aria-label="Close lightbox"><i class="fas fa-times"></i></button>
+          <div class="lightbox-carousel-wrapper"><!-- dynamic lightbox carousel injected here --></div>
+          <div class="lightbox-info"><h3 class="lightbox-title"></h3><p class="lightbox-category"></p></div>
+        </div>
+      </div>
+
     <% } else { %>
       <p class="muted">No projects yet. Check back later.</p>
     <% } %>
@@ -148,78 +168,3 @@
 
 <%- include('partials/footer') %>
 
-<script>
-  // Search and filter functionality (admin-only)
-  document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    if (!searchInput) return; // only run on admin view
-
-    const categoryFilter = document.getElementById('categoryFilter');
-    const sortSelect = document.getElementById('sortSelect');
-    const galleryCards = document.querySelectorAll('.gallery-card');
-    
-    // Search function
-    function filterGallery() {
-      const searchTerm = searchInput.value.toLowerCase();
-      const selectedCategory = categoryFilter ? categoryFilter.value : '';
-      
-      galleryCards.forEach(card => {
-        const title = card.getAttribute('data-title') || '';
-        const category = card.getAttribute('data-category') || '';
-        
-        const matchesSearch = !searchTerm || title.includes(searchTerm);
-        const matchesCategory = !selectedCategory || category === selectedCategory;
-        
-        if (matchesSearch && matchesCategory) {
-          card.style.display = 'block';
-          setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          }, 100);
-        } else {
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(20px)';
-          setTimeout(() => {
-            card.style.display = 'none';
-          }, 300);
-        }
-      });
-    }
-    
-    // Sort function
-    function sortGallery() {
-      if (!sortSelect) return;
-      const sortBy = sortSelect.value;
-      const galleryList = document.querySelector('.gallery-list');
-      const cards = Array.from(galleryCards);
-      
-      cards.sort((a, b) => {
-        switch(sortBy) {
-          case 'az':
-            return a.getAttribute('data-title').localeCompare(b.getAttribute('data-title'));
-          case 'za':
-            return b.getAttribute('data-title').localeCompare(a.getAttribute('data-title'));
-          case 'newest':
-            return new Date(b.getAttribute('data-date')) - new Date(a.getAttribute('data-date'));
-          case 'oldest':
-            return new Date(a.getAttribute('data-date')) - new Date(b.getAttribute('data-date'));
-          default:
-            return 0;
-        }
-      });
-      
-      // Reorder cards
-      cards.forEach(card => {
-        galleryList.appendChild(card);
-      });
-    }
-    
-    // Event listeners
-    searchInput.addEventListener('input', filterGallery);
-    if (categoryFilter) categoryFilter.addEventListener('change', filterGallery);
-    if (sortSelect) sortSelect.addEventListener('change', sortGallery);
-    
-    // Initialize
-    filterGallery();
-  });
-</script>

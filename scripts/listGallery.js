@@ -6,7 +6,7 @@ import GalleryItem from '../models/GalleryItem.js';
   try {
     await connectDB(process.env.MONGO_URI);
     const items = await GalleryItem.find().limit(50).lean();
-    console.log('Gallery items:', items.map(i => ({ _id: i._id, title: i.title, imageUrl: i.imageUrl, category: i.category })));
+    console.log('Gallery items:', items.map(i => ({ _id: i._id, title: i.title, images: i.images, category: i.category })));
     process.exit(0);
   } catch (err) {
     console.error('Error listing gallery items', err && err.message ? err.message : err);

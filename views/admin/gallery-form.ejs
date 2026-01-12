@@ -36,19 +36,21 @@
         <textarea name="caption"><%= item && item.caption ? item.caption : '' %></textarea>
       </label>
 
-      <label>Image file (choose to upload)
-        <input id="imageFile" type="file" name="image" accept="image/*">
+      <label>Image file (choose to upload) <small class="muted">Max 5MB per image, up to 6 images</small>
+        <input id="imageFiles" type="file" name="images" accept="image/*" multiple>
       </label>
 
-      <label>Or Image URL
-        <input id="imageUrl" name="imageUrl" value="<%= item.imageUrl || '' %>">
+      <label>Image URLs (one per line)
+        <textarea id="imageUrl" name="imageUrls" rows="3" placeholder="Paste image URLs here, one per line"><%= item && item.images ? (item.images.join('\n')) : '' %></textarea>
       </label>
 
-      <div id="previewWrap">
-        <% if (item && item.imageUrl) { %>
-          <img id="preview" src="<%= item.imageUrl %>" class="admin-image-preview" alt="preview">
+      <div id="previewWrap" class="multi-preview">
+        <% if (item && item.images && item.images.length) { %>
+          <% item.images.slice(0,6).forEach(function(i){ %>
+            <img src="<%= i %>" class="admin-image-preview" alt="preview">
+          <% }) %>
         <% } else { %>
-          <img id="preview" src="" class="admin-image-preview" alt="preview" style="display:none">
+          <div class="muted">No images selected</div>
         <% } %>
       </div>
 
@@ -59,26 +61,6 @@
   </div>
 </main>
 
-<script>
-  (function(){
-    const file = document.getElementById('imageFile');
-    const url = document.getElementById('imageUrl');
-    const preview = document.getElementById('preview');
-    const previewWrap = document.getElementById('previewWrap');
-    function showPreview(src){
-      if (!preview) return;
-      if (!src) { preview.style.display = 'none'; preview.src = ''; return; }
-      preview.src = src; preview.style.display = 'block';
-    }
-    if (file) file.addEventListener('change', function(){
-      const f = this.files && this.files[0];
-      if (!f) return;
-      const reader = new FileReader();
-      reader.onload = function(e){ showPreview(e.target.result); }
-      reader.readAsDataURL(f);
-    });
-    if (url) url.addEventListener('input', function(){ showPreview(this.value.trim()); });
-  })();
-</script>
+
 
 <%- include('../partials/footer') %>

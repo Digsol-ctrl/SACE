@@ -11,7 +11,7 @@ h1{font-size:2.5rem}h2{font-size:2rem}h3{font-size:1.5rem}p{margin-bottom:var(--
 @media (max-width:600px){.projects-cta{margin:28px 0 20px;padding:0 8px}}
 
 /* Projects Hero */
-.projects-hero{padding:56px 0;min-height:220px;max-height:420px;background-image:linear-gradient(180deg, rgba(26,74,141,0.85), rgba(44,107,181,0.65)),url('https://images.unsplash.com/photo-1542223616-6d8f8a4f4d7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');background-size:cover;background-position:center top;border-radius:12px;color:var(--white);margin:var(--spacing-lg) 0;overflow:hidden}
+.projects-hero{padding:56px 0;min-height:220px;max-height:420px;background-image:linear-gradient(180deg, rgba(26,74,141,0.85), rgba(44,107,181,0.65)),url('/images/construction_team.webp');background-size:cover;background-position:center top;border-radius:12px;color:var(--white);margin:var(--spacing-lg) 0;overflow:hidden}
 .projects-hero .container{display:flex;flex-direction:column;align-items:flex-start;gap:var(--spacing-sm);max-width:980px;margin:0 auto}
 .projects-hero .breadcrumb{color:rgba(255,255,255,.85);margin-bottom:var(--spacing-xs);font-size:.95rem}
 .projects-hero h1{font-size:2.25rem;color:var(--white);margin-bottom:var(--spacing-sm);text-shadow:0 4px 18px rgba(0,0,0,.35)}
@@ -65,7 +65,7 @@ h1{font-size:2.5rem}h2{font-size:2rem}h3{font-size:1.5rem}p{margin-bottom:var(--
   .logo img.site-logo{max-width:120px}
 }
 .logo-icon{width:50px;height:50px;background-color:var(--primary-blue);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:1.5rem}.logo-text h1{font-size:1.5rem;margin-bottom:0;color:var(--primary-blue)}.logo-text p{font-size:0.8rem;margin-bottom:0;color:var(--medium-gray)}.main-nav ul{display:flex;list-style:none;gap:var(--spacing-md)}.main-nav a{color:var(--dark-gray);font-weight:500;padding:var(--spacing-xs) 0;position:relative}.main-nav a:hover,.main-nav a.active{color:var(--primary-blue)}.main-nav a.active::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background-color:var(--primary-orange)}.mobile-menu-btn{display:none;background:none;border:none;font-size:1.5rem;color:var(--primary-blue);cursor:pointer;padding:var(--spacing-xs);z-index:1001}
-.hero{margin-top:70px;height:100vh;min-height:700px;position:relative;overflow:hidden;background:linear-gradient(135deg, rgba(26,74,141,.9), rgba(0,0,0,.8)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');background-size:cover;background-position:center;background-attachment:fixed;display:flex;align-items:center}.hero-slider{position:relative;width:100%;height:100%}.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;opacity:0;transition:opacity var(--transition-slow)}.slide.active{opacity:1}.slide-content{max-width:700px;color:var(--white);padding:0 var(--spacing-md)}.slide-content h2{font-size:3.5rem;margin-bottom:var(--spacing-md);color:var(--white);text-shadow:2px 2px 4px rgba(0,0,0,.3);animation:fadeInUp 1s ease}.slide-content p{font-size:1.3rem;margin-bottom:var(--spacing-md);animation:fadeInUp 1s ease 0.3s both}.hero-btns{display:flex;gap:var(--spacing-sm);margin-top:var(--spacing-md);flex-wrap:wrap;animation:fadeInUp 1s ease 0.6s both}.slider-btn{position:absolute;top:50%;transform:translateY(-50%);background-color:rgba(255,255,255,.2);border:none;color:var(--white);width:50px;height:50px;border-radius:50%;font-size:1.2rem;cursor:pointer;transition:background-color var(--transition-normal);z-index:10}.slider-btn:hover{background-color:rgba(255,255,255,.3)}.prev-btn{left:var(--spacing-md)}.next-btn{right:var(--spacing-md)}.slider-dots{position:absolute;bottom:var(--spacing-lg);left:0;width:100%;display:flex;justify-content:center;gap:var(--spacing-xs)}.dot{width:12px;height:12px;border-radius:50%;background-color:rgba(255,255,255,.5);cursor:pointer;transition:background-color var(--transition-normal)}.dot.active{background-color:var(--white)}
+.hero{margin-top:70px;height:100vh;min-height:700px;position:relative;overflow:hidden;background:linear-gradient(135deg, rgba(26,74,141,.9), rgba(0,0,0,.8)), url('/images/construction_team.webp');background-size:cover;background-position:center;background-attachment:fixed;display:flex;align-items:center}.hero-slider{position:relative;width:100%;height:100%}.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;opacity:0;transition:opacity var(--transition-slow)}.slide.active{opacity:1}.slide-content{max-width:700px;color:var(--white);padding:0 var(--spacing-md)}.slide-content h2{font-size:3.5rem;margin-bottom:var(--spacing-md);color:var(--white);text-shadow:2px 2px 4px rgba(0,0,0,.3);animation:fadeInUp 1s ease}.slide-content p{font-size:1.3rem;margin-bottom:var(--spacing-md);animation:fadeInUp 1s ease 0.3s both}.hero-btns{display:flex;gap:var(--spacing-sm);margin-top:var(--spacing-md);flex-wrap:wrap;animation:fadeInUp 1s ease 0.6s both}.slider-btn{position:absolute;top:50%;transform:translateY(-50%);background-color:rgba(255,255,255,.2);border:none;color:var(--white);width:50px;height:50px;border-radius:50%;font-size:1.2rem;cursor:pointer;transition:background-color var(--transition-normal);z-index:10}.slider-btn:hover{background-color:rgba(255,255,255,.3)}.prev-btn{left:var(--spacing-md)}.next-btn{right:var(--spacing-md)}.slider-dots{position:absolute;bottom:var(--spacing-lg);left:0;width:100%;display:flex;justify-content:center;gap:var(--spacing-xs)}.dot{width:12px;height:12px;border-radius:50%;background-color:rgba(255,255,255,.5);cursor:pointer;transition:background-color var(--transition-normal)}.dot.active{background-color:var(--white)}
 /* Additional styles omitted for brevity - keep full styles in production */
 
 
@@ -362,7 +362,7 @@ a:hover {
     min-height: 700px;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, rgba(26, 74, 141, 0.9), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+    background: linear-gradient(135deg, rgba(26, 74, 141, 0.9), rgba(0, 0, 0, 0.8)), url('/images/construction_team.webp');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -768,6 +768,7 @@ main .grid{display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:start}
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center center;
     transition: transform var(--transition-normal);
 }
 
@@ -787,11 +788,17 @@ main .grid{display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:start}
     padding: var(--spacing-md);
     opacity: 0;
     transition: opacity var(--transition-normal);
+    pointer-events: none; /* don't block clicks to carousel by default */
+    z-index: 2;
 }
 
 .gallery-item:hover .gallery-overlay {
     opacity: 1;
+    pointer-events: none; /* still don't intercept: nav buttons sit above */
 }
+
+/* ensure carousel navs sit above overlays */
+.card-carousel .carousel-nav{z-index:40} 
 
 .gallery-info {
     color: var(--white);
@@ -821,7 +828,7 @@ main .grid{display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:start}
 }
 
 /* Projects page */
-.projects-hero{padding:56px 0;min-height:220px;max-height:420px;background:linear-gradient(135deg,rgba(26,74,141,.85),rgba(0,0,0,.5)), url('https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');background-size:cover;background-position:center top;color:#fff;text-align:center;border-radius:12px;margin:var(--spacing-lg) 0}
+.projects-hero{padding:56px 0;min-height:220px;max-height:420px;background:linear-gradient(135deg,rgba(26,74,141,.85),rgba(0,0,0,.5)), url('/images/construction_team.webp');background-size:cover;background-position:center top;color:#fff;text-align:center;border-radius:12px;margin:var(--spacing-lg) 0}
 .projects-hero .lead{max-width:700px;margin:12px auto 0;color:rgba(255,255,255,.9)}
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px;align-items:start}
 .project-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 6px 18px rgba(10,20,40,.06);display:flex;flex-direction:column}
@@ -833,6 +840,26 @@ main .grid{display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:start}
 @media (max-width:900px){.projects-grid{grid-template-columns:repeat(2,1fr)}.project-image{height:200px}}
 @media (max-width:600px){.projects-grid{grid-template-columns:1fr}.projects-hero{padding:48px 12px}.project-image{height:160px}}
 
+/* Simple card carousel */
+.card-carousel{position:relative;height:100%;overflow:hidden;display:flex;align-items:center}
+.card-carousel .carousel-track{display:flex;transition:transform .35s ease;will-change:transform;height:100%;}
+.card-carousel .carousel-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.card-carousel .carousel-slide img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block;max-width:100%;max-height:100%;}
+.card-carousel .carousel-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);border:none;color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5}
+.card-carousel .carousel-nav.prev{left:8px}
+.card-carousel .carousel-nav.next{right:8px}
+.card-carousel .carousel-nav:focus{outline:2px solid #fff}
+
+/* Enforce consistent card / admin thumbnail heights */
+.project-image, .gallery-card-image, .gallery-card-image .thumb, .gallery-item { height: 220px; min-height: 180px; max-height: 320px; }
+.gallery-card-image img, .project-image img, .gallery-item img { display:block; width:100%; height:100%; object-fit:cover; }
+
+/* When carousel slides have one image, don't allow it to overflow — ensure track reset */
+.card-carousel .carousel-track { transform: translateX(0); }
+
+@media (max-width:900px){.project-image, .gallery-card-image, .gallery-item{height:200px}}
+@media (max-width:600px){.card-carousel .carousel-nav{width:32px;height:32px}; .project-image, .gallery-card-image, .gallery-item{height:160px}}
+
 .lightbox.active {
     opacity: 1;
     visibility: visible;
@@ -842,6 +869,17 @@ main .grid{display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:start}
     position: relative;
     max-width: 90%;
     max-height: 90%;
+}
+
+/* Lightbox carousel (centered project slideshow) */
+.lightbox-carousel { width: 100%; max-width: 1100px; max-height: 85vh; display:flex; align-items:center; justify-content:center; position:relative; }
+.lightbox-carousel .carousel-track{display:flex;transition:transform .35s ease;height:100%;}
+.lightbox-carousel .carousel-slide{min-width:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.lightbox-carousel .carousel-slide img{max-width:100%;max-height:80vh;object-fit:contain;object-position:center center;display:block}
+.lightbox .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);color:#fff;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:3000}
+.lightbox .lightbox-nav.prev{left:10px}
+.lightbox .lightbox-nav.next{right:10px}
+.lightbox .lightbox-nav:focus{outline:2px solid #fff}
     width: 800px;
     background-color: var(--white);
     border-radius: var(--radius-lg);
@@ -1176,7 +1214,8 @@ input:focus, select:focus, textarea:focus {
 .whatsapp-float {
     position: fixed;
     bottom: var(--spacing-lg);
-    right: var(--spacing-lg);
+    /* Keep the button inside the centered container on wide screens; fall back to spacing on small screens */
+    right: max(var(--spacing-sm), calc((100% - 1200px) / 2 + var(--spacing-sm)));
     width: 60px;
     height: 60px;
     background-color: #25D366;
@@ -1189,6 +1228,7 @@ input:focus, select:focus, textarea:focus {
     box-shadow: var(--shadow-lg);
     z-index: 999;
     transition: all var(--transition-normal);
+    will-change: transform;
 }
 
 .whatsapp-float:hover {

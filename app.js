@@ -103,6 +103,36 @@ app.use((req, res, next) => {
 app.use((req, res) => res.status(404).render('404', { title: 'Not Found' }));
 app.use((err, req, res, next) => {
   console.error(err);
+
+  // Multer file size error
+  if (err && err.code === 'LIMIT_FILE_SIZE') {
+    const maxMB = 5;
+    const msg = `One or more files exceed the ${maxMB}MB size limit. Please upload smaller images or reduce resolution.`;
+    if (req.path && req.path.startsWith('/admin/gallery')) {
+      const item = {
+        title: req.body ? (req.body.title || '') : '',
+        category: req.body ? (req.body.category || 'Uncategorized') : 'Uncategorized',
+        caption: req.body ? (req.body.caption || '') : ''
+      };
+      return res.status(400).render('admin/gallery-form', { item, errors: [msg] });
+    }
+    return res.status(400).send(msg);
+  }
+
+  // Too many files or unexpected field
+  if (err && err.code === 'LIMIT_UNEXPECTED_FILE') {
+    const msg = 'Too many files uploaded or unexpected file fields. Maximum 6 images are allowed.';
+    if (req.path && req.path.startsWith('/admin/gallery')) {
+      const item = {
+        title: req.body ? (req.body.title || '') : '',
+        category: req.body ? (req.body.category || 'Uncategorized') : 'Uncategorized',
+        caption: req.body ? (req.body.caption || '') : ''
+      };
+      return res.status(400).render('admin/gallery-form', { item, errors: [msg] });
+    }
+    return res.status(400).send(msg);
+  }
+
   res.status(500).send('Server error');
 });
 

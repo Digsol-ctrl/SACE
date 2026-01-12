@@ -6,15 +6,15 @@ export async function home(req, res, next) {
     const services = await Service.find().limit(6);
 
     // Prefer DB gallery items; if none exist, use a small static fallback
-    const gallery = await GalleryItem.aggregate([{ $sample: { size: 6 } }]);
+    let gallery = await GalleryItem.aggregate([{ $sample: { size: 6 } }]);
     
     const totalProjects = await GalleryItem.countDocuments();
 
     if (!gallery || gallery.length === 0) {
       gallery = [
-        { imageUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', title: 'Modern Villa', category: 'Residential' },
-        { imageUrl: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', title: 'Office Complex', category: 'Commercial' },
-        { imageUrl: 'https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', title: 'Kitchen Remodel', category: 'Renovation' }
+        { imageUrl: '/images/construction_team.webp', title: 'Modern Villa', category: 'Residential' },
+        { imageUrl: '/images/construction_team.webp', title: 'Office Complex', category: 'Commercial' },
+        { imageUrl: '/images/construction_team.webp', title: 'Kitchen Remodel', category: 'Renovation' }
       ];
     }
 
