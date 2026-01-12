@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initSmoothScrolling();
   initBackToTop();
   initActiveNavOnScroll();
+  initTopStrip();
   initScrollAnimations();
   initHashScroll();
   // admin filters (if on admin projects page)
@@ -742,5 +743,29 @@ function initHashScroll() {
 function initBackToTop() { const backToTopBtn = document.querySelector('.back-to-top'); if (!backToTopBtn) return; window.addEventListener('scroll', function() { if (window.pageYOffset > 300) { backToTopBtn.classList.add('visible'); } else { backToTopBtn.classList.remove('visible'); } }); backToTopBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); }); }
 
 function initActiveNavOnScroll(){ const sections = document.querySelectorAll('section'); const navLinks = document.querySelectorAll('.nav-link'); window.addEventListener('scroll', function(){ let current = ''; sections.forEach(section => { const sectionTop = section.offsetTop; const sectionHeight = section.clientHeight; const headerHeight = document.querySelector('.header').offsetHeight; if (window.pageYOffset >= (sectionTop - headerHeight - 100)) { current = section.getAttribute('id'); } }); navLinks.forEach(link => { link.classList.remove('active'); const href = link.getAttribute('href') || ''; let hash = ''; try { hash = new URL(href, window.location.origin).hash || ''; } catch(e) { if (href.includes('#')) hash = '#' + href.split('#').pop(); } if (hash === `#${current}`) link.classList.add('active'); }); const header = document.querySelector('.header'); if (window.pageYOffset > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled'); }); }
+
+function initTopStrip(){
+  const header = document.querySelector('.header');
+  if (!header) return;
+  const topStrip = header.querySelector('.top-strip');
+  if (!topStrip) return;
+  function update(){
+    if (window.pageYOffset > 10) {
+      document.body.classList.add('top-hidden');
+      header.classList.add('top-hidden');
+    } else {
+      document.body.classList.remove('top-hidden');
+      header.classList.remove('top-hidden');
+    }
+  }
+  update();
+  let ticking = false;
+  window.addEventListener('scroll', function(){
+    if (!ticking) {
+      window.requestAnimationFrame(function(){ update(); ticking = false; });
+      ticking = true;
+    }
+  });
+}
 
 function initScrollAnimations() { const animateElements = document.querySelectorAll('.animate-on-scroll, .service-card, .mission-card, .stat-item, .gallery-item, .project-card'); const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; } }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }); animateElements.forEach(element => { element.style.opacity = '0'; element.style.transform = 'translateY(20px)'; element.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; observer.observe(element); }); }
